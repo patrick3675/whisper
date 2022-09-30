@@ -1,4 +1,4 @@
-image: paperspace/whisper-deploy:v3
+image: paperspace/whisper-deploy:v1.1
 port: 5000
 env:
   - name: ENV
