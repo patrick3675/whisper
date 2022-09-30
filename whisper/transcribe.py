@@ -264,7 +264,7 @@ def cli():
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("audio", nargs="+", type=str,
+    parser.add_argument("--audio", nargs="+", type=str,
                         help="audio file(s) to transcribe")
     parser.add_argument("--model", default="small",
                         choices=available_models(), help="name of the Whisper model to use")
@@ -310,7 +310,7 @@ def cli():
                         help="if the probability of the <|nospeech|> token is higher than this value AND the decoding has failed due to `logprob_threshold`, consider the segment as silence")
 
     sys.argv = [
-        'audio inputs/audio/audio.mp3 --model small --output_dir results/saved']
+        '--audio inputs/audio/audio.mp3 --model small --output_dir results/saved']
 
     args = parser.parse_args().__dict__
     model_name: str = args.pop("model")
