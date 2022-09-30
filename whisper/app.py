@@ -9,7 +9,7 @@ import sys
 from os import listdir
 from os.path import isfile, join
 from werkzeug.utils import secure_filename
-
+import subprocess
 import shutil
 
 import torch
@@ -102,11 +102,10 @@ def upload_file():
 
 @app.route('/main', methods=['POST', 'GET'])
 def main():
-    file = 'inputs/audio/' + os.listdir('inputs/audio/')[0]
     for i in os.listdir('inputs/audio/'):
         if i.split('.')[-1] in able:
             file = i
-            subprocess.call("app.py", shell=True, args=[file])
+            subprocess.call("__main__.py", shell=True)
     for i in os.listdir('results/saved/'):
         if i.split('.')[-1] == 'txt':
             file_object = open('results/saved/'+i)
