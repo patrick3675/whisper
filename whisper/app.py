@@ -110,7 +110,7 @@ def main():
         if i.split('.')[-1] == 'txt':
             file_object = open('results/saved/'+i)
             file_object.read()
-    return None
+    return 'ok'
 
 
 if __name__ == '__main__':
