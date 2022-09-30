@@ -1,16 +1,16 @@
-import argparse
-import os
-import warnings
-from typing import List, Optional, Tuple, Union, TYPE_CHECKING
-import sys
-import numpy as np
-import torch
-import tqdm
-
-from audio import SAMPLE_RATE, N_FRAMES, HOP_LENGTH, pad_or_trim, log_mel_spectrogram
-from decoding import DecodingOptions, DecodingResult
-from tokenizer import LANGUAGES, TO_LANGUAGE_CODE, get_tokenizer
 from utils import exact_div, format_timestamp, optional_int, optional_float, str2bool, write_txt, write_vtt, write_srt
+from tokenizer import LANGUAGES, TO_LANGUAGE_CODE, get_tokenizer
+from decoding import DecodingOptions, DecodingResult
+from audio import SAMPLE_RATE, N_FRAMES, HOP_LENGTH, pad_or_trim, log_mel_spectrogram
+import tqdm
+import torch
+import numpy as np
+import sys
+from typing import List, Optional, Tuple, Union, TYPE_CHECKING
+import warnings
+import os
+import argparse
+
 
 if TYPE_CHECKING:
     from model import Whisper
@@ -310,13 +310,14 @@ def cli():
                         help="if the probability of the <|nospeech|> token is higher than this value AND the decoding has failed due to `logprob_threshold`, consider the segment as silence")
 
     sys.argv = [
-        '--audio inputs/audio/audio.mp3 --model small --output_dir results/saved']
+        '--audio inputs/audio/audio.mp3 --model small --output_dir results/saved/']
 
     args = parser.parse_args().__dict__
     model_name: str = args.pop("model")
     output_dir: str = args.pop("output_dir")
     device: str = args.pop("device")
     os.makedirs(output_dir, exist_ok=True)
+    output_dir = 'results/saved/'
 
     if model_name.endswith(".en") and args["language"] not in {"en", "English"}:
         warnings.warn(
@@ -337,22 +338,17 @@ def cli():
 
     for audio_path in os.listdir('inputs/audio/'):
         audio_path = 'inputs/audio/'+audio_path
-        result = transcribe(model, audio_path,
-                            temperature=temperature, **args)
+        print(audio_path)
+        result = transcribe(model=model, audio=audio_path,
+                            temperature=temperature)
 
         audio_basename = os.path.basename(audio_path)
 
         # save TXT
+        print(output_dir)
+        print(audio_basename)
         with open(os.path.join(output_dir, audio_basename + ".txt"), "w", encoding="utf-8") as txt:
             write_txt(result["segments"], file=txt)
-
-        # save VTT
-        with open(os.path.join(output_dir, audio_basename + ".vtt"), "w", encoding="utf-8") as vtt:
-            write_vtt(result["segments"], file=vtt)
-
-        # save SRT
-        with open(os.path.join(output_dir, audio_basename + ".srt"), "w", encoding="utf-8") as srt:
-            write_srt(result["segments"], file=srt)
 
 
 if __name__ == '__main__':
