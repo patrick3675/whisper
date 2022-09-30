@@ -336,6 +336,7 @@ def cli():
     model = load_model(model_name, device=device)
 
     for audio_path in os.listdir('inputs/audio/'):
+        audio_path = 'inputs/audio/'+audio_path
         result = transcribe(model, 'inputs/audio/'+audio_path,
                             temperature=temperature, **args)
 
