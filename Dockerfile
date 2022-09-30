@@ -4,7 +4,6 @@ RUN apt-get update \
   && apt-get install -y wget \
   && rm -rf /var/lib/apt/lists/*
 RUN apt-get update && apt-get install -y git
-RUN git clone https://github.com/gradient-ai/whisper
 RUN pip install flask
 RUN pip install Werkzeug
 RUN pip install numpy
@@ -15,6 +14,7 @@ RUN pip install transformers>=4.19.0
 RUN pip install opencv-python-headless
 RUN pip install ffmpeg-python
 RUN apt install ffmpeg -y
+RUN git clone https://github.com/gradient-ai/whisper
 WORKDIR whisper/
 WORKDIR whisper/
 RUN wget https://openaipublic.azureedge.net/main/whisper/models/9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794/small.pt

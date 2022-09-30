@@ -73,8 +73,7 @@ def transcribe(
     """
     dtype = torch.float16 if decode_options.get(
         "fp16", True) else torch.float32
-    model.device = torch.device("cuda")
-    if model.device == torch.device("cuda"):
+    if model.device == torch.device("cpu"):
         if torch.cuda.is_available():
             warnings.warn("Performing inference on CPU when CUDA is available")
         if dtype == torch.float16:
@@ -90,7 +89,7 @@ def transcribe(
         if verbose:
             print(
                 "Detecting language using up to the first 30 seconds. Use `--language` to specify the language")
-        segment = pad_or_trim(mel, N_FRAMES).to('cuda').to(dtype)
+        segment = pad_or_trim(mel, N_FRAMES).to(model.device).to(dtype)
         _, probs = model.detect_language(segment)
         decode_options["language"] = max(probs, key=probs.get)
         if verbose is not None:
@@ -113,8 +112,7 @@ def transcribe(
         else:
             best_of = kwargs.get("best_of", None)
 
-        options = DecodingOptions(**kwargs, fp16=False, temperature=t)
-
+        options = DecodingOptions(**kwargs, temperature=t)
         results = model.decode(segment, options)
 
         kwargs.pop("beam_size", None)  # no beam search for t > 0
@@ -129,7 +127,7 @@ def transcribe(
                 for result in results
             ]
             if any(needs_fallback):
-                options = DecodingOptions(**kwargs, fp16=False, temperature=t)
+                options = DecodingOptions(**kwargs, temperature=t)
                 retries = model.decode(segment[needs_fallback], options)
                 for retry_index, original_index in enumerate(np.nonzero(needs_fallback)[0]):
                     results[original_index] = retries[retry_index]
@@ -270,8 +268,8 @@ def cli():
                         help="audio file(s) to transcribe")
     parser.add_argument("--model", default="small",
                         choices=available_models(), help="name of the Whisper model to use")
-    parser.add_argument("--device", default="cuda",
-                        help="device to use for PyTorch inference")
+    parser.add_argument("--device", default="cuda" if torch.cuda.is_available()
+                        else "cpu", help="device to use for PyTorch inference")
     parser.add_argument("--output_dir", "-o", type=str,
                         default=".", help="directory to save the outputs")
     parser.add_argument("--verbose", type=str2bool, default=True,
@@ -312,7 +310,7 @@ def cli():
                         help="if the probability of the <|nospeech|> token is higher than this value AND the decoding has failed due to `logprob_threshold`, consider the segment as silence")
 
     sys.argv = [
-        '--audio inputs/audio/audio.mp3 --default "cuda" --model small --output_dir results/saved/']
+        '--audio inputs/audio/audio.mp3 --model small --output_dir results/saved/']
 
     args = parser.parse_args().__dict__
     model_name: str = args.pop("model")
@@ -336,7 +334,7 @@ def cli():
         temperature = [temperature]
 
     from helpers import load_model
-    model = load_model(model_name, device='cuda', download_root='./')
+    model = load_model(model_name, device=device, download_root='./')
 
     for audio_path in os.listdir('inputs/audio/'):
         audio_path = 'inputs/audio/'+audio_path
