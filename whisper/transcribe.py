@@ -332,7 +332,7 @@ def cli():
     else:
         temperature = [temperature]
 
-    from . import load_model
+    from helpers import load_model
     model = load_model(model_name, device=device)
 
     for audio_path in args.pop("audio"):
