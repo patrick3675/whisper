@@ -112,7 +112,8 @@ def transcribe(
         else:
             best_of = kwargs.get("best_of", None)
 
-        options = DecodingOptions(**kwargs, temperature=t)
+        options = DecodingOptions(**kwargs, fp16=False, temperature=t)
+
         results = model.decode(segment, options)
 
         kwargs.pop("beam_size", None)  # no beam search for t > 0
@@ -127,7 +128,7 @@ def transcribe(
                 for result in results
             ]
             if any(needs_fallback):
-                options = DecodingOptions(**kwargs, temperature=t)
+                options = DecodingOptions(**kwargs, fp16=False, temperature=t)
                 retries = model.decode(segment[needs_fallback], options)
                 for retry_index, original_index in enumerate(np.nonzero(needs_fallback)[0]):
                     results[original_index] = retries[retry_index]
