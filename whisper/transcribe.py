@@ -13,7 +13,7 @@ from tokenizer import LANGUAGES, TO_LANGUAGE_CODE, get_tokenizer
 from utils import exact_div, format_timestamp, optional_int, optional_float, str2bool, write_txt, write_vtt, write_srt
 
 if TYPE_CHECKING:
-    from .model import Whisper
+    from model import Whisper
 
 
 def transcribe(
@@ -260,7 +260,7 @@ def transcribe(
 
 
 def cli():
-    from . import available_models
+    from helpers import available_models
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
