@@ -57,7 +57,7 @@ def allowed_file(filename):
 def upload_file():
     source = 'inputs/audio/'
     destination = 'inputs/saved/'
-    out = 'results/text/'
+    out = 'results/saved/'
     for f in os.listdir(source):
         os.remove(os.path.join(source, f))
     for f in os.listdir(destination):
@@ -101,13 +101,13 @@ def upload_file():
 
 @app.route('/main', methods=['POST', 'GET'])
 def main(file):
-    for i in os.listdir('../inputs/'):
+    for i in os.listdir('inputs/audio/'):
         if i.split('.')[-1] in able:
             file = i
             subprocess.call("app.py", shell=True, args=[file])
-    for i in os.listdir('results'):
+    for i in os.listdir('results/saved/'):
         if i.split('.')[-1] == 'txt':
-            file_object = open('results/'+i)
+            file_object = open('results/saved/'+i)
             file_object.read()
     return None
 
