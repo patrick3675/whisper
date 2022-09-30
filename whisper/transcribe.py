@@ -337,7 +337,7 @@ def cli():
 
     for audio_path in os.listdir('inputs/audio/'):
         audio_path = 'inputs/audio/'+audio_path
-        result = transcribe(model, 'inputs/audio/'+audio_path,
+        result = transcribe(model, audio_path,
                             temperature=temperature, **args)
 
         audio_basename = os.path.basename(audio_path)
