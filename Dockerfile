@@ -20,3 +20,4 @@ WORKDIR whisper/
 RUN wget https://openaipublic.azureedge.net/main/whisper/models/9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794/small.pt
 
 EXPOSE 5000
+CMD python app.py

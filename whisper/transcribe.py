@@ -73,7 +73,7 @@ def transcribe(
     """
     dtype = torch.float16 if decode_options.get(
         "fp16", True) else torch.float32
-    if model.device == torch.device("cpu"):
+    if model.device == torch.device("cuda"):
         if torch.cuda.is_available():
             warnings.warn("Performing inference on CPU when CUDA is available")
         if dtype == torch.float16:

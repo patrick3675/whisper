@@ -88,7 +88,7 @@ def upload_file():
     <h1>Upload new File</h1>
     <body>
         <div>
-        After you upload the audio file, click submit to run the model
+        After you select the audio file, click upload to run the model
         </div>
         <br>
         <div>
