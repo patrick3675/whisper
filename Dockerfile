@@ -6,4 +6,4 @@ RUN pip install ffmpeg
 WORKDIR whisper/
 WORKDIR whisper/
 
-EXPOSE 8888
+EXPOSE 5000
