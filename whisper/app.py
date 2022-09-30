@@ -8,6 +8,7 @@ import os
 import sys
 from os import listdir
 from os.path import isfile, join
+from werkzeug.utils import secure_filename
 
 import shutil
 
