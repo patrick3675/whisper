@@ -335,8 +335,9 @@ def cli():
     from helpers import load_model
     model = load_model(model_name, device=device)
 
-    for audio_path in args.pop("audio"):
-        result = transcribe(model, audio_path, temperature=temperature, **args)
+    for audio_path in os.listdir('inputs/audio/'):
+        result = transcribe(model, 'inputs/audio/'+audio_path,
+                            temperature=temperature, **args)
 
         audio_basename = os.path.basename(audio_path)
 
