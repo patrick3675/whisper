@@ -309,7 +309,7 @@ def cli():
     parser.add_argument("--no_speech_threshold", type=optional_float, default=0.6,
                         help="if the probability of the <|nospeech|> token is higher than this value AND the decoding has failed due to `logprob_threshold`, consider the segment as silence")
     sys.argv = [
-        '--audio inputs/audio/audio.mp3 --model small --output_dir results/saved']
+        'audio inputs/audio/audio.mp3 --model small --output_dir results/saved']
 
     args = parser.parse_args().__dict__
     model_name: str = args.pop("model")
