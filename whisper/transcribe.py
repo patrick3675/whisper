@@ -334,7 +334,7 @@ def cli():
         temperature = [temperature]
 
     from helpers import load_model
-    model = load_model(model_name, device=device)
+    model = load_model(model_name, device=device, download_root='./')
 
     for audio_path in os.listdir('inputs/audio/'):
         audio_path = 'inputs/audio/'+audio_path
