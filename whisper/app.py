@@ -11,6 +11,7 @@ from os.path import isfile, join
 from werkzeug.utils import secure_filename
 import subprocess
 import shutil
+from transcribe import cli
 
 import torch
 import torchvision.transforms as transforms
@@ -105,7 +106,7 @@ def main():
     for i in os.listdir('inputs/audio/'):
         if i.split('.')[-1] in able:
             file = i
-            subprocess.call("__main__.py", shell=True)
+            cli()
     for i in os.listdir('results/saved/'):
         if i.split('.')[-1] == 'txt':
             file_object = open('results/saved/'+i)
