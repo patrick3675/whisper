@@ -1,21 +1,18 @@
-image: paperspace/gradient-base:pt112-tf29-jax0314-py39-20220803 # container image used to run your deployment
-command: # optional command to override the container image's default command
-  - "python"
-  - "app.py"
-  - "&&"
-  - "pip install"
-  - "git+https://github.com/openai/whisper.git"
-port: 8080 # local container port that your service is running on
-env: # environment variables that are applied at run time
+image: paperspace/gradient-base:pt112-tf29-jax0314-py39-20220803
+port: 8080
+command:
+  - >-
+    pip install git+https://github.com/openai/whisper.git && git clone git+https://github.com/gradient-ai/whisper.git && pip install flask && cd whisper && python app.py
+env:
   - name: ENV
     value: VAR
 repositories:
-  dataset: ds9v71pzpr8pnt9 # the ID of the dataset you want to sync the repository with
-  mountPath: opt/ # the  local filepath you want to sync the repos to inside your deployment
+  dataset: ds9v71pzpr8pnt9
+  mountPath: ./
   repositories:
-    - url: https://github.com/gradient-ai/whisper # the URL of the repository
-      ref: main # optionally, a git branch, commit, or tag to check out
-      name: whisper # the folder name you want to clone the repo into
+    - url: https://github.com/gradient-ai/whisper
+      name: whisper
+      ref: main
 resources:
-  replicas: 1 # number of replicas used for your deployment
-  instanceType: A6000 # instance type that your deployment will run on
+  replicas: 1
+  instanceType: A5000

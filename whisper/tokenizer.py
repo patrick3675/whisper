@@ -153,7 +153,8 @@ class Tokenizer:
                 outputs.append([])
             else:
                 outputs[-1].append(token)
-        outputs = [s if isinstance(s, str) else self.tokenizer.decode(s) for s in outputs]
+        outputs = [s if isinstance(
+            s, str) else self.tokenizer.decode(s) for s in outputs]
         return "".join(outputs)
 
     @property
@@ -196,7 +197,8 @@ class Tokenizer:
     def language_token(self) -> int:
         """Returns the token id corresponding to the value of the `language` field"""
         if self.language is None:
-            raise ValueError(f"This tokenizer does not have language token configured")
+            raise ValueError(
+                f"This tokenizer does not have language token configured")
 
         additional_tokens = dict(
             zip(
@@ -246,7 +248,8 @@ class Tokenizer:
         keeping basic punctuations like commas, periods, question marks, exclamation points, etc.
         """
         symbols = list("\"#()*+/:;<=>@[\\]^_`{|}~「」『』")
-        symbols += "<< >> <<< >>> -- --- -( -[ (' (\" (( )) ((( ))) [[ ]] {{ }} ♪♪ ♪♪♪".split()
+        symbols += "<< >> <<< >>> -- --- -( -[ (' (\" (( )) ((( ))) [[ ]] {{ }} ♪♪ ♪♪♪".split(
+        )
 
         # symbols that may be a single token or multiple tokens depending on the tokenizer.
         # In case they're multiple tokens, suppress the first token, which is safe because:
@@ -256,7 +259,8 @@ class Tokenizer:
         assert all(0x2640 <= ord(c) <= 0x267F for c in miscellaneous)
 
         # allow hyphens "-" and single quotes "'" between words, but not at the beginning of a word
-        result = {self.tokenizer.encode(" -")[0], self.tokenizer.encode(" '")[0]}
+        result = {self.tokenizer.encode(
+            " -")[0], self.tokenizer.encode(" '")[0]}
         for symbol in symbols + list(miscellaneous):
             for tokens in [self.tokenizer.encode(symbol), self.tokenizer.encode(" " + symbol)]:
                 if len(tokens) == 1 or symbol in miscellaneous:

@@ -7,7 +7,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-from .utils import exact_div
+from utils import exact_div
 
 # hard-coded audio hyperparameters
 SAMPLE_RATE = 16000
@@ -16,7 +16,8 @@ N_MELS = 80
 HOP_LENGTH = 160
 CHUNK_LENGTH = 30
 N_SAMPLES = CHUNK_LENGTH * SAMPLE_RATE  # 480000: number of samples in a chunk
-N_FRAMES = exact_div(N_SAMPLES, HOP_LENGTH)  # 3000: number of frames in a mel spectrogram input
+# 3000: number of frames in a mel spectrogram input
+N_FRAMES = exact_div(N_SAMPLES, HOP_LENGTH)
 
 
 def load_audio(file: str, sr: int = SAMPLE_RATE):
@@ -60,7 +61,8 @@ def pad_or_trim(array, length: int = N_SAMPLES, *, axis: int = -1):
         if array.shape[axis] < length:
             pad_widths = [(0, 0)] * array.ndim
             pad_widths[axis] = (0, length - array.shape[axis])
-            array = F.pad(array, [pad for sizes in pad_widths[::-1] for pad in sizes])
+            array = F.pad(
+                array, [pad for sizes in pad_widths[::-1] for pad in sizes])
     else:
         if array.shape[axis] > length:
             array = array.take(indices=range(length), axis=axis)
@@ -112,7 +114,8 @@ def log_mel_spectrogram(audio: Union[str, np.ndarray, torch.Tensor], n_mels: int
         audio = torch.from_numpy(audio)
 
     window = torch.hann_window(N_FFT).to(audio.device)
-    stft = torch.stft(audio, N_FFT, HOP_LENGTH, window=window, return_complex=True)
+    stft = torch.stft(audio, N_FFT, HOP_LENGTH,
+                      window=window, return_complex=True)
     magnitudes = stft[:, :-1].abs() ** 2
 
     filters = mel_filters(audio.device, n_mels)
