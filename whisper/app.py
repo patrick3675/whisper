@@ -84,8 +84,8 @@ def upload_file():
             return redirect(url_for('main', name=filename))
     return '''
     <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
+    <title>Upload New File</title>
+    <h1>Upload New File</h1>
     <body>
         <div>
         After you select the audio file, click upload to run the model
