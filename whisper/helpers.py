@@ -90,8 +90,7 @@ def load_model(name: str, device: Optional[Union[str, torch.device]] = None, dow
         The Whisper ASR model instance
     """
 
-    if device is None:
-        device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = 'cuda'
     if download_root is None:
         download_root = os.path.join(
             os.path.expanduser("~"), ".cache", "whisper")
