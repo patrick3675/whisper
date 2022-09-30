@@ -1,4 +1,4 @@
-from .transcribe import cli
+from transcribe import cli
 
 
 cli()

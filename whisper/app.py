@@ -101,7 +101,8 @@ def upload_file():
 
 
 @app.route('/main', methods=['POST', 'GET'])
-def main(file):
+def main():
+    file = 'inputs/audio/' + os.listdir('inputs/audio/')[0]
     for i in os.listdir('inputs/audio/'):
         if i.split('.')[-1] in able:
             file = i

@@ -8,10 +8,10 @@ from typing import List, Optional, Union
 import torch
 from tqdm import tqdm
 
-from .audio import load_audio, log_mel_spectrogram, pad_or_trim
-from .decoding import DecodingOptions, DecodingResult, decode, detect_language
-from .model import Whisper, ModelDimensions
-from .transcribe import transcribe
+from audio import load_audio, log_mel_spectrogram, pad_or_trim
+from decoding import DecodingOptions, DecodingResult, decode, detect_language
+from model import Whisper, ModelDimensions
+from transcribe import transcribe
 
 
 _MODELS = {
@@ -34,14 +34,16 @@ def _download(url: str, root: str, in_memory: bool) -> Union[bytes, str]:
     download_target = os.path.join(root, os.path.basename(url))
 
     if os.path.exists(download_target) and not os.path.isfile(download_target):
-        raise RuntimeError(f"{download_target} exists and is not a regular file")
+        raise RuntimeError(
+            f"{download_target} exists and is not a regular file")
 
     if os.path.isfile(download_target):
         model_bytes = open(download_target, "rb").read()
         if hashlib.sha256(model_bytes).hexdigest() == expected_sha256:
             return model_bytes if in_memory else download_target
         else:
-            warnings.warn(f"{download_target} exists, but the SHA256 checksum does not match; re-downloading the file")
+            warnings.warn(
+                f"{download_target} exists, but the SHA256 checksum does not match; re-downloading the file")
 
     with urllib.request.urlopen(url) as source, open(download_target, "wb") as output:
         with tqdm(total=int(source.info().get("Content-Length")), ncols=80, unit='iB', unit_scale=True, unit_divisor=1024) as loop:
@@ -55,7 +57,8 @@ def _download(url: str, root: str, in_memory: bool) -> Union[bytes, str]:
 
     model_bytes = open(download_target, "rb").read()
     if hashlib.sha256(model_bytes).hexdigest() != expected_sha256:
-        raise RuntimeError("Model has been downloaded but the SHA256 checksum does not not match. Please retry loading the model.")
+        raise RuntimeError(
+            "Model has been downloaded but the SHA256 checksum does not not match. Please retry loading the model.")
 
     return model_bytes if in_memory else download_target
 
@@ -90,14 +93,16 @@ def load_model(name: str, device: Optional[Union[str, torch.device]] = None, dow
     if device is None:
         device = "cuda" if torch.cuda.is_available() else "cpu"
     if download_root is None:
-        download_root = os.path.join(os.path.expanduser("~"), ".cache", "whisper")
+        download_root = os.path.join(
+            os.path.expanduser("~"), ".cache", "whisper")
 
     if name in _MODELS:
         checkpoint_file = _download(_MODELS[name], download_root, in_memory)
     elif os.path.isfile(name):
         checkpoint_file = open(name, "rb").read() if in_memory else name
     else:
-        raise RuntimeError(f"Model {name} not found; available models = {available_models()}")
+        raise RuntimeError(
+            f"Model {name} not found; available models = {available_models()}")
 
     with (io.BytesIO(checkpoint_file) if in_memory else open(checkpoint_file, "rb")) as fp:
         checkpoint = torch.load(fp, map_location=device)
