@@ -12,10 +12,10 @@ RUN pip3 install torch torchvision torchaudio
 RUN pip install tqdm
 RUN pip install more-itertools
 RUN pip install transformers>=4.19.0
-RUN pip install ffmpeg-python==0.2.0
 RUN pip install opencv-python-headless
-RUN pip install ffmpeg-python==0.2.0
+RUN apt install ffmpeg
 WORKDIR whisper/
 WORKDIR whisper/
-
+RUN wget https://openaipublic.azureedge.net/main/whisper/models/9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794/small.pt
 EXPOSE 5000
+

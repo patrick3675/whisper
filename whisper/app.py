@@ -110,8 +110,8 @@ def main():
     for i in os.listdir('results/saved/'):
         if i.split('.')[-1] == 'txt':
             file_object = open('results/saved/'+i)
-            file_object.read()
-    return 'ok'
+
+    return file_object.read()
 
 
 if __name__ == '__main__':
