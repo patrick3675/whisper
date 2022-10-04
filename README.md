@@ -32,7 +32,7 @@ resources:
   instanceType: P5000
 ```
 
-##
+## Launch Whisper in a Gradient Notebook
 
 To launch Whisper in a Gradient Notebook, click the link below
 
