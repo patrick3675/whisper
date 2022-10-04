@@ -22,26 +22,26 @@ Open up the project of your choice in the Gradient console, and navigate to the 
 
 In the top of the page description, click the link "upload a deployment spec."
 
-Then, give your a deployment a name, delete the sample spec, and paste the following from the `yaml.spec`
+Then, give your a deployment a name, delete the sample spec, and fill in the following information from the `yaml.spec`
 
 ```
 image: paperspace/whisper-deploy:v1.1
 port: 5000
-env:
-  - name: ENV
-    value: VAR
 resources:
   replicas: 1
-  instanceType: A100
+  instanceType: P5000
 ```
+
+##
+
+To launch Whisper in a Gradient Notebook, click the link below
+[![Gradient](https://assets.paperspace.io/img/gradient-badge.svg)](https://console.paperspace.com/github/gradient-ai/whisper/blob/master/notebooks/LibriSpeech.ipynb?machine=Free-GPU)
 
 ---
 
 [[Blog]](https://openai.com/blog/whisper)
 [[Paper]](https://cdn.openai.com/papers/whisper.pdf)
 [[Model card]](model-card.md)
-[[Colab example]](https://colab.research.google.com/github/openai/whisper/blob/master/notebooks/LibriSpeech.ipynb)
-
 Whisper is a general-purpose speech recognition model. It is trained on a large dataset of diverse audio and is also a multi-task model that can perform multilingual speech recognition as well as speech translation and language identification.
 
 ## Approach
