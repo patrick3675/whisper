@@ -35,6 +35,7 @@ resources:
 ##
 
 To launch Whisper in a Gradient Notebook, click the link below
+
 [![Gradient](https://assets.paperspace.io/img/gradient-badge.svg)](https://console.paperspace.com/github/gradient-ai/whisper/blob/master/notebooks/LibriSpeech.ipynb?machine=Free-GPU)
 
 ---
