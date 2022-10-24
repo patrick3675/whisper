@@ -112,13 +112,14 @@ def main():
         if i.split('.')[-1] == 'txt':
             file_object = open('results/saved/'+i)
     file_object = open('results/saved/'+i)
+    print(file_object)
     return '''
     <!doctype html>
     <title>Your text output</title>
     <h1>Your text output</h1>
     <body>
         <div>
-        {file_object.read()}
+        {open('results/saved/'+i).read()}
         </div>
         <br>
 
