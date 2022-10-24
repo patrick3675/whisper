@@ -110,9 +110,10 @@ def main():
             cli()
     for i in os.listdir('results/saved/'):
         if i.split('.')[-1] == 'txt':
-            file_object = open('results/saved/'+i)
-    file_object = open('results/saved/'+i)
-    print(file_object)
+            with open('results/saved/'+i, 'r') as f:
+                content = f.read()
+                print(content)
+    return render_template("index3.html", content=content)
     return '''
     <!doctype html>
     <title>Your text output</title>
