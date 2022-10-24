@@ -113,18 +113,7 @@ def main():
             file_object = open('results/saved/'+i)
     file_object = open('results/saved/'+i)
     print(file_object)
-    return '''
-    <!doctype html>
-    <title>Your text output</title>
-    <h1>Your text output</h1>
-    <body>
-        <div>
-        {open('results/saved/'+i).read()}
-        </div>
-        <br>
-
-    </body>
-    '''
+    return render_template('index3.html', file_object)
 
 
 if __name__ == '__main__':
