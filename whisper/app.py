@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 import subprocess
 import shutil
 from transcribe import cli
-
+import speech_recognition as sr
 import torch
 import torchvision.transforms as transforms
 from PIL import Image
@@ -38,8 +38,8 @@ from utils import exact_div, format_timestamp, optional_int, optional_float, str
 
 
 UPLOAD_FOLDER = 'inputs/audio'
-ALLOWED_EXTENSIONS = {'mp3', 'FLAC', 'wav'}
-able = ['mp3', 'FLAC', 'wav']
+ALLOWED_EXTENSIONS = {'mp3', 'm4a', 'FLAC', 'wav'}
+able = ['mp3', 'FLAC', 'wav', 'm4a']
 
 app = Flask(__name__, static_folder='results')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -60,6 +60,7 @@ def upload_file():
     source = 'inputs/audio/'
     destination = 'inputs/saved/'
     out = 'results/saved/'
+
     for f in os.listdir(source):
         os.remove(os.path.join(source, f))
     for f in os.listdir(destination):
@@ -111,7 +112,18 @@ def main():
         if i.split('.')[-1] == 'txt':
             file_object = open('results/saved/'+i)
 
-    return file_object.read()
+    return '''
+    <!doctype html>
+    <title>Your text output</title>
+    <h1>Your text output</h1>
+    <body>
+        <div>
+        {file_object.read()}
+        </div>
+        <br>
+
+    </body>
+    '''
 
 
 if __name__ == '__main__':
