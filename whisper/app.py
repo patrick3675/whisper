@@ -113,7 +113,7 @@ def main():
             file_object = open('results/saved/'+i)
     file_object = open('results/saved/'+i)
     print(file_object)
-    return render_template('index3.html', file_object)
+    return render_template('index3.html')
 
 
 if __name__ == '__main__':
