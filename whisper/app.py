@@ -111,7 +111,7 @@ def main():
     for i in os.listdir('results/saved/'):
         if i.split('.')[-1] == 'txt':
             file_object = open('results/saved/'+i)
-
+    file_object = open('results/saved/'+i)
     return '''
     <!doctype html>
     <title>Your text output</title>
