@@ -91,6 +91,12 @@ def upload_file():
 
 
 @app.route('/main', methods=['POST', 'GET'])
+class GetFile(Resource):
+    def get(self, filename):
+        return {
+            "directory": 'results/subbed_vids/',
+            "filename": filename
+        }
 def main():
     for i in os.listdir('inputs/audio/'):
         if i.split('.')[-1] in able:
