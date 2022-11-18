@@ -14,10 +14,10 @@ RUN pip install transformers>=4.19.0
 RUN pip install opencv-python-headless
 RUN pip install ffmpeg-python
 RUN apt install ffmpeg -y
-RUN git clone https://github.com/gradient-ai/whisper
+RUN git clone https://github.com/patrick3675/whisper
 WORKDIR whisper/
 WORKDIR whisper/
-RUN wget https://openaipublic.azureedge.net/main/whisper/models/9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794/small.pt
+RUN wget https://openaipublic.azureedge.net/main/whisper/models/e4b87e7e0bf463eb8e6956e646f1e277e901512310def2c24bf0e11bd3c28e9a/large.pt
 RUN pip install SpeechRecognition
 EXPOSE 5000
 CMD python app.py
